@@ -1,0 +1,213 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3f37c9;
+        --accent-color: #4895ef;
+        --text-color: #2b2d42;
+        --light-gray: #f8f9fa;
+        --white: #ffffff;
+        --error-color: #ef233c;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .login-container {
+        background-color: var(--white);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        padding: 40px;
+        transform: translateY(0);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-header h2 {
+        color: var(--text-color);
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .login-header p {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background-color: var(--light-gray);
+    }
+
+    .form-group input:focus {
+        border-color: var(--accent-color);
+        background-color: var(--white);
+        box-shadow: 0 0 0 4px rgba(72, 149, 239, 0.1);
+        outline: none;
+    }
+
+    .form-group .helptext {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .errorlist {
+        list-style: none;
+        color: var(--error-color);
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .errorlist li {
+        padding: 5px 0;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .login-button:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .login-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .login-footer a:hover {
+        color: var(--secondary-color);
+        text-decoration: underline;
+    }
+
+    /* Animation for form elements */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-group {
+        animation: fadeIn 0.5s ease forwards;
+    }
+
+    .form-group:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .form-group:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .form-group:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .login-button {
+        animation: fadeIn 0.5s ease 0.4s forwards;
+    }
+
+    .login-footer {
+        animation: fadeIn 0.5s ease 0.5s forwards;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-header">
+        <h2>Profile Page</h2>
+        <p>Please enter the new data</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+            <span class="helptext">{{ field.help_text }}</span>
+            {% endif %}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="login-button">Update User</button>
+    </form>
+</div>

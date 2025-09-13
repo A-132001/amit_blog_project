@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+<!-- Main Content -->
+{% block content %}
+<main class="container">
+    <div class="header">
+        <h1>Latest Posts</h1>
+        <p>Discover our most recent articles and stories</p>
+    </div>
+
+    <div class="posts-grid">
+        {% for post in page_obj %}
+        <article class="post-card">
+            <div class="post-image">
+                <img src="{{post.image.url}}" alt="Post Image">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span class="author">{{post.author}}</span>
+                    <span class="date">{{post.created_at}}</span>
+                </div>
+                <h2><a href="{% url 'post_details' post.id %}">{{post.title}}</a></h2>
+                <p class="excerpt">{{post.content}}</p>
+                <a href="{% url 'post_details' post.id %}" class="read-more">Read More</a>
+                {% if user.is_authenticated and user == post.author %}
+                <a href="{% url 'delete_post' post.id %}" style="color: red;">Delete Post</a>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
